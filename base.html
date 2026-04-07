@@ -1,0 +1,137 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>A Digital Recommendation System for Personalized Learning</title>
+
+    <style>
+        :root {
+            --primary-color: #00bcd4;
+            --secondary-color: #6c757d;
+            --background-color: #0f172a;
+            --surface-color: #1e293b;
+            --text-color: #e2e8f0;
+            --accent-glow: 0 0 15px rgba(0, 188, 212, 0.4);
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            background-image: url("{% static 'background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            margin: 0;
+            padding-top: 100px;
+        }
+
+        .header {
+            background-color: rgba(53, 54, 56, 0.98);
+            padding: 12px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 999;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,188,212,0.15);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            animation: pulse 2.5s infinite;
+        }
+
+        .header-title-main {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 0.75rem;
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace;
+            max-width: 420px;
+            line-height: 1.2;
+        }
+
+        .nav-link {
+            color: var(--text-color);
+            margin: 0 8px;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 188, 212, 0.12);
+            color: var(--primary-color);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.07); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="header-brand">
+        <i class="fas fa-graduation-cap header-icon"></i>
+        <div>
+            <h3 class="header-title-main">Lifetime Prediction for Lithium-Ion Batteries </h3>
+            
+        </div>
+    </div>
+
+    <div class="nav">
+        <a class="nav-link" href="{% url 'index' %}">
+            <i class="fas fa-home me-1"></i> Home
+        </a>
+        <a class="nav-link" href="{% url 'UserLogin' %}">
+            <i class="fas fa-user me-1"></i> Login
+        </a>
+        <a class="nav-link" href="{% url 'AdminLoginCheck' %}">
+            <i class="fas fa-user-shield me-1"></i> Admin
+        </a>
+        <a class="nav-link" href="{% url 'UserRegisterForm' %}">
+            <i class="fas fa-user-plus me-1"></i> Register
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    {% block contents %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

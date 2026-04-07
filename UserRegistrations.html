@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    /* Unique Styles for the Registration Form to match the Dark Theme */
+    .registration-page-wrapper {
+        min-height: 80vh; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .registration-card {
+        max-width: 600px; /* Wider card for the many fields */
+        width: 100%;
+        padding: 40px;
+        /* Using surface color and transparency from base.html */
+        background-color: rgba(30, 41, 59, 0.95); 
+        border-radius: 15px;
+        /* Professional shadow with a subtle teal glow */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 188, 212, 0.2); 
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+
+    .form-title {
+        color: var(--primary-color); /* Teal highlight */
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 5px;
+        text-shadow: var(--accent-glow);
+    }
+    
+    .form-subtitle {
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+        font-size: 0.95rem;
+    }
+
+    /* Custom form group spacing */
+    .form-group-custom {
+        margin-bottom: 1.25rem;
+    }
+
+    /* Ensure form controls match the dark theme */
+    .form-control-custom {
+        background-color: var(--background-color) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-color) !important;
+        border-radius: 8px;
+        padding: 10px 15px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .form-control-custom:focus {
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25);
+    }
+    
+    .form-control-custom::placeholder {
+        color: #64748b; /* Lighter placeholder color */
+    }
+
+    /* Primary Button style matching base.html */
+    .btn-register {
+        background-color: var(--primary-color);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        padding: 12px 25px;
+        border-radius: 8px;
+        transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    }
+    
+    .btn-register:hover {
+        background-color: #0097a7; /* Darker teal on hover */
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 188, 212, 0.4);
+    }
+
+    /* Grid for side-by-side fields (using Bootstrap 5 utility classes) */
+    .row-cols-md-2 > * {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+</style>
+
+<div class="registration-page-wrapper">
+    <div class="registration-card">
+        
+        <h2 class="form-title text-center">
+            <i class="fas fa-user-plus me-2"></i> Create Your Account
+        </h2>
+      
+
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-success text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'UserRegisterForm' %}" method="post">
+            {% csrf_token %}
+
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col form-group-custom">
+                    <label for="name" class="form-label">Full Name:</label>
+                    <input type="text" class="form-control form-control-custom" id="name" name="name" maxlength="100" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="col form-group-custom">
+                    <label for="loginid" class="form-label">Login ID (Username):</label>
+                    <input type="text" class="form-control form-control-custom" id="loginid" name="loginid" maxlength="100" required placeholder="Choose a unique username">
+                </div>
+                
+                <div class="col form-group-custom">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" class="form-control form-control-custom" id="password" name="password" maxlength="100" required placeholder="Must be at least 8 characters">
+                </div>
+                
+                <div class="col form-group-custom">
+                    <label for="mobile" class="form-label">Mobile:</label>
+                    <input type="text" class="form-control form-control-custom" id="mobile" name="mobile" maxlength="10" required pattern="\d{10}" title="Must be a 10-digit number" placeholder="e.g., 9876543210">
+                </div>
+                
+                <div class="col-12 form-group-custom">
+                    <label for="email" class="form-label">Email Address:</label>
+                    <input type="email" class="form-control form-control-custom" id="email" name="email" maxlength="100" required placeholder="your.email@example.com">
+                </div>
+
+                <div class="col form-group-custom">
+                    <label for="locality" class="form-label">Locality:</label>
+                    <input type="text" class="form-control form-control-custom" id="locality" name="locality" maxlength="100" placeholder="Neighbourhood or area">
+                </div>
+                
+                <div class="col form-group-custom">
+                    <label for="city" class="form-label">City:</label>
+                    <input type="text" class="form-control form-control-custom" id="city" name="city" maxlength="100" placeholder="e.g., New York">
+                </div>
+                
+                <div class="col form-group-custom">
+                    <label for="state" class="form-label">State/Province:</label>
+                    <input type="text" class="form-control form-control-custom" id="state" name="state" maxlength="100" placeholder="e.g., Texas">
+                </div>
+            </div>
+
+            <div class="form-group-custom">
+                <label for="address" class="form-label">Full Address:</label>
+                <textarea class="form-control form-control-custom" id="address" name="address" maxlength="1000" rows="3" placeholder="Street address, unit/apartment number"></textarea>
+            </div>
+            
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-register btn-lg">
+                    <i class="fas fa-check-circle me-2"></i> Complete Registration
+                </button>
+            </div>
+            
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    Already have an account? 
+                    <a href="{% url 'UserLogin' %}" style="color: var(--primary-color); text-decoration: none;">Login here</a>
+                </small>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

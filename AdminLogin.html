@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    /* IMPORTANT: This CSS uses the variables defined in your parent base.html:
+    --primary-color: #00bcd4; (Teal)
+    --background-color: #0f172a; (Deep Navy)
+    --surface-color: #1e293b; (Dark Card)
+    --text-color: #e2e8f0; (Soft White)
+    --border-color: #334155;
+    --accent-glow: 0 0 15px rgba(0, 188, 212, 0.4); 
+    */
+
+    /* The 'content' div is typically inside the 'body' area which has the background image/color */
+    .admin-login-wrapper {
+        min-height: calc(100vh - 100px); /* Account for fixed header */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        /* Using a subtle pattern or effect to differentiate the login area from the rest of the content */
+    }
+
+    /* Login Container - Dark and Elevated */
+    .admin-login-card {
+        background-color: var(--surface-color); /* Dark Card Color */
+        border-radius: 18px;
+        box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.7), /* Deep shadow for elevation */
+            0 0 25px rgba(0, 188, 212, 0.2); /* Subtle teal glow */
+        padding: 40px 35px;
+        width: 100%;
+        max-width: 400px;
+        animation: slideIn 0.8s ease-out;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Animation for Entrance */
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(50px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* Unique Icon Styling (Shield with Glow) */
+    .admin-icon {
+        width: 80px;
+        height: 80px;
+        /* Primary Teal Color */
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: var(--background-color); /* Dark color on Teal for max contrast */
+        font-size: 32px;
+        box-shadow: 0 0 20px rgba(0, 188, 212, 0.8); /* Stronger glow for the icon */
+        transition: transform 0.3s;
+    }
+
+    .admin-icon:hover {
+        transform: scale(1.05) rotate(-5deg);
+    }
+
+    .login-header h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-color);
+        margin-bottom: 5px;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-header p {
+        font-size: 15px;
+        color: var(--secondary-color); /* Muted gray for subtitle */
+    }
+
+    /* Form Inputs */
+    .form-group label {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-color);
+        display: block;
+        margin-bottom: 8px;
+        opacity: 0.8;
+    }
+
+    .input-wrapper i {
+        left: 14px;
+        color: var(--primary-color); /* Teal icon inside the input */
+    }
+
+    .form-control {
+        background: var(--background-color) !important; /* Deep Navy */
+        border: 2px solid var(--border-color) !important;
+        color: var(--text-color) !important;
+        border-radius: 10px;
+        padding: 14px 14px 14px 44px;
+        font-size: 16px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 4px rgba(0, 188, 212, 0.25); /* Teal focus glow */
+        background: var(--surface-color) !important;
+    }
+
+    /* Buttons - Full Width by default */
+    .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 35px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 14px 18px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom {
+        background: var(--primary-color);
+        color: var(--background-color); /* Dark text on bright Teal */
+        box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    }
+
+    .btn-primary-custom:hover {
+        background: #0097a7; /* Slightly darker teal */
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 188, 212, 0.6);
+    }
+
+    .btn-secondary-custom {
+        background: var(--surface-color);
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+
+    .btn-secondary-custom:hover {
+        background: rgba(0, 188, 212, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    /* Messages */
+    .message-container {
+        margin-top: 25px;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .message-success { background: #14532d; color: #a7f3d0; border: 1px solid #4ade80; } /* Dark Green/Teal Success */
+    .message-error { background: #7f1d1d; color: #fecaca; border: 1px solid #f87171; } /* Dark Red Error */
+
+    /* Forgot Password */
+    .forgot-password a {
+        color: var(--primary-color);
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        .button-group {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="content">
+    <div class="admin-login-wrapper">
+        <div class="admin-login-card">
+            <div class="login-header">
+                <div class="admin-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h1>System Administrator</h1>
+              
+            </div>
+
+            <form action="{% url 'AdminLoginCheck' %}" method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="loginid">Admin Login ID</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-fingerprint"></i>
+                        <input type="text" id="loginid" name="loginid" class="form-control" placeholder="Enter Admin ID" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Security Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" name="pswd" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary-custom"><i class="fas fa-sign-in-alt me-2"></i> Log In</button>
+                    <button type="reset" class="btn btn-secondary-custom"><i class="fas fa-eraser me-2"></i> Clear</button>
+                </div>
+            </form>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message-container {% if message.tags == 'error' or message.tags == 'danger' %}message-error{% else %}message-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="forgot-password">
+                <a href="#" onclick="alert('For security reasons, please contact your highest-level administrator for password reset.')">
+                    <i class="fas fa-unlock-alt me-1"></i> Emergency Password Reset?
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

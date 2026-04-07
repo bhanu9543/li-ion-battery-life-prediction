@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    /* Custom CSS for a unique, professional dark theme login */
+
+    .login-page-wrapper {
+        min-height: 80vh; /* Adjusting for the fixed header/footer space */
+        display: flex;
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
+        padding: 50px 20px;
+        /* Inherits background-color from base.html */
+    }
+
+    .login-card {
+        max-width: 450px;
+        width: 100%;
+        padding: 40px;
+        /* Using surface color and transparency from base.html */
+        background-color: var(--surface-color); 
+        border-radius: 15px;
+        /* High-contrast, glowing shadow */
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 15px var(--primary-color-dim); 
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+        animation: fadeInDown 0.8s ease-out;
+    }
+    
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .logo-header h2 {
+        color: var(--primary-color); /* Teal highlight */
+        font-weight: 800;
+        font-size: 2.2rem;
+        margin-bottom: 5px;
+        text-shadow: var(--accent-glow);
+    }
+    
+    .logo-header p {
+        color: var(--secondary-color);
+        font-size: 1rem;
+    }
+
+    /* Input Field Customization for Dark Theme */
+    .form-control-dark {
+        background-color: var(--background-color); /* Deep Navy background */
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        border-radius: 8px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .form-control-dark:focus {
+        border-color: var(--primary-color);
+        /* Subtle Teal focus glow */
+        box-shadow: 0 0 0 0.2rem rgba(0, 188, 212, 0.25);
+        background-color: var(--surface-color);
+    }
+
+    /* Floating label adjustment for dark theme */
+    .form-floating label {
+        color: var(--secondary-color);
+        opacity: 0.8;
+    }
+    
+    /* Primary button style (Custom Teal) */
+    .btn-primary-custom-teal {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: var(--background-color); /* Dark text on bright button */
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    }
+
+    .btn-primary-custom-teal:hover {
+        background-color: #0097a7;
+        border-color: #0097a7;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 188, 212, 0.6);
+    }
+
+    .btn-outline-secondary-dark {
+        color: var(--secondary-color);
+        border-color: var(--border-color);
+    }
+    
+    .btn-outline-secondary-dark:hover {
+        color: var(--text-color);
+        background-color: var(--border-color);
+    }
+
+</style>
+
+<div class="login-page-wrapper">
+    <div class="login-card">
+        <div class="logo-header">
+            <h2>
+                <i class="fas fa-lock me-2"></i> User Login
+            </h2>
+          
+        </div>
+        
+        <form action="{% url 'UserLoginCheck' %}" method="POST" class="needs-validation" novalidate>
+            {% csrf_token %}
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control form-control-dark" id="loginid" name="loginid" required placeholder="name@example.com">
+                <label for="loginid"><i class="fas fa-user me-2"></i> Login ID</label>
+            </div>
+            
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control form-control-dark" id="pswd" name="pswd" required placeholder="Password">
+                <label for="pswd"><i class="fas fa-key me-2"></i> Password</label>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button class="btn btn-primary-custom-teal btn-lg" type="submit">
+                    <i class="fas fa-sign-in-alt me-2"></i> Secure Sign In
+                </button>
+            </div>
+            
+            <div class="d-grid">
+                <button class="btn btn-outline-secondary-dark btn-sm" type="reset">Clear Fields</button>
+            </div>
+
+            {% if messages %}
+                <div class="mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags|default:'danger' }} text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="text-center mt-4 small">
+                <a href="#" class="text-muted text-decoration-none me-3">Forgot Password?</a>
+                <span class="text-muted">|</span>
+                <a href="{% url 'UserRegisterForm' %}" class="text-decoration-none" style="color: var(--primary-color);">
+                    New User? Register here
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
